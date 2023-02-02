@@ -1,0 +1,170 @@
+body {
+    font-family: system-ui;
+}
+body::before {
+    content: "";
+    background: url("/bg.jpg") no-repeat center center/cover;
+    background-color: black;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.8;
+}
+
+.chat-app {
+    color: ghostwhite;
+    margin: 0 10vw;
+    min-width: 70vw;
+    /* box-shadow: rgb(0 0 0 / 42%) 3px 3px 6px 0px inset, rgb(0 0 0 / 64%) -3px -3px 6px 1px inset; */
+}
+
+.chat-area {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    margin: 2vw;
+    height: 73vh;
+    box-shadow: rgb(0 0 0 / 42%) 3px 3px 6px 0px inset, rgb(0 0 0 / 64%) -3px -3px 6px 1px inset;
+}
+
+.chat-area::-webkit-scrollbar {
+    display: none;
+}
+
+.room-header {
+    text-align: center;
+    font-size: 2rem;
+    padding: 2vh;
+    margin: 0;
+    color: black;
+}
+
+.msg {
+    margin: 0px 40px;
+    margin-bottom: 20px;
+    max-width: 40vw;
+    box-shadow: rgb(0 0 0 / 42%) 0px 10px 15px -3px, rgb(0 0 0 / 64%) 0px 4px 6px -2px;
+    padding: 10px;
+    color: black;
+}
+
+.right {
+    margin-left: auto;
+}
+
+.left {
+    margin-right: auto;
+}
+
+.msg-user-name {
+    margin: 0;
+    color: whitesmoke;
+}
+.msg-body {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    max-width: 50vw;
+    margin: 0;
+}
+
+.msg-text {
+    font-size: 1.3rem;
+}
+
+.msg-time {
+    font-size: 14px;
+    min-width: 60px;
+    margin-left: 5px;
+}
+
+.new-chat-form {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+}
+
+#msg-input {
+    padding: 10px 10px;
+    margin: 20px;
+    width: 46vw;
+    font-size: 1.3rem;
+    flex: 10;
+}
+
+::placeholder {
+    color: white;
+    opacity: 1; /* Firefox */
+}
+
+.inp {
+    border: none;
+    background: transparent;
+}
+
+.inp:focus {
+    outline: none;
+    background: transparent;
+}
+
+.btn {
+    border: none;
+    font-size: 1.4rem;
+    padding: 10px 20px;
+    color: black;
+    background: transparent;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 2px 20px;
+    box-shadow: rgb(0 0 0 / 42%) 0px 10px 15px -3px, rgb(0 0 0 / 64%) 0px 4px 6px -2px;
+}
+
+.btn:hover {
+    box-shadow: rgb(0 0 0 / 42%) 0px 10px 15px -3px, rgb(0 0 0 / 64%) 0px 4px 6px -2px;
+}
+
+.send-msg {
+    flex: 1;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 50vh;
+}
+
+.room {
+    display: flex;
+    flex-direction: column;
+    justify-content: spa;
+    align-items: flex-start;
+    /* width: 40vw; */
+}
+
+#roomId {
+    padding: 10px 10px;
+    margin: 20px 0px;
+    width: 40vw;
+    font-size: 1.3rem;
+    border-bottom: 2px solid;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    width: 99vw;
+}
+
+.auth {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
