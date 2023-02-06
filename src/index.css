@@ -24,13 +24,21 @@ body::before {
 .chat-area {
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
     margin: 2vw;
     height: 73vh;
     box-shadow: rgb(0 0 0 / 42%) 3px 3px 6px 0px inset, rgb(0 0 0 / 64%) -3px -3px 6px 1px inset;
+    padding-top: 10px;
+    justify-content: flex-end;
 }
 
-.chat-area::-webkit-scrollbar {
+.messages-area {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 73vh;
+}
+
+.messages-area::-webkit-scrollbar {
     display: none;
 }
 
@@ -129,6 +137,15 @@ body::before {
 
 .send-msg {
     flex: 1;
+}
+
+#send-image {
+    flex: 1;
+    display: none;
+}
+
+#send-img-lable {
+    font-size: 40px;
 }
 
 .App {
