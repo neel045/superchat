@@ -7,10 +7,10 @@ import {
     serverTimestamp,
     where,
 } from "firebase/firestore"
-import { daysToWeeks, format } from "date-fns"
+import { format } from "date-fns"
 import { memo, useEffect, useRef, useState } from "react"
 import { auth, db, storage } from "../../firebase.config"
-import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage"
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
 import { nanoid } from "nanoid"
 
 const Chat = ({ room }) => {
