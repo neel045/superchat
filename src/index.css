@@ -57,6 +57,13 @@ body::before {
     box-shadow: rgb(0 0 0 / 42%) 0px 10px 15px -3px, rgb(0 0 0 / 64%) 0px 4px 6px -2px;
     padding: 10px;
     color: black;
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 38vw;
+    object-fit: contain;
+    padding-top: 15px;
 }
 
 .right {

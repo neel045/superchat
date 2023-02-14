@@ -10,7 +10,7 @@ import {
 import { format } from "date-fns"
 import { memo, useEffect, useRef, useState } from "react"
 import { auth, db, storage } from "../../firebase.config"
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { nanoid } from "nanoid"
 
 const Chat = ({ room }) => {
@@ -18,6 +18,7 @@ const Chat = ({ room }) => {
     const [messages, setMessages] = useState([])
     const lastMessage = useRef(null)
     const imageInputRef = useRef(null)
+    const [image, setImage] = useState("")
 
     const messagesCollection = collection(db, "messages")
 
@@ -32,6 +33,7 @@ const Chat = ({ room }) => {
             snapshot.forEach((doc) => {
                 messages.push({ ...doc.data(), id: doc.id })
             })
+            console.log({ messages })
             setMessages(messages)
         })
 
@@ -44,33 +46,10 @@ const Chat = ({ room }) => {
         }
     }, [messages])
 
-    const uploadImage = async () => {
-        const currentFilePath = imageInputRef?.current?.value
-        if (currentFilePath) {
-            const fileExt = currentFilePath.split(".").pop()
-            const fileName = `img-${auth.currentUser.uid}-${nanoid()}.${fileExt}`
-            const imageRef = ref(storage, `images/${fileName}`)
-
-            try {
-                return new Promise((resolve, reject) =>
-                    uploadBytes(imageRef, currentFilePath).then((data) => {
-                        getDownloadURL(ref(storage, imageRef))
-                            .then((val) => resolve(val))
-                            .catch(reject(null))
-                    })
-                )
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        return null
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const img = await uploadImage()
-        console.log({ img })
-        if (newMessage === "" && !img) return
+
+        console.log({ image })
 
         const msg = {
             text: newMessage.trim(),
@@ -80,10 +59,30 @@ const Chat = ({ room }) => {
                 id: auth.currentUser.uid,
             },
             room,
-            img,
         }
-        await addDoc(messagesCollection, msg)
+
+        if (imageInputRef.current.value) {
+            const fileExt = image.name.split(".").pop()
+            const fileName = `img-${auth.currentUser.uid}-${nanoid()}.${fileExt}`
+            const imageRef = ref(storage, `images/${fileName}`)
+            console.log({ imageRef })
+
+            const uploadTask = uploadBytesResumable(imageRef, image, {
+                contentType: image.type,
+            })
+            uploadTask.on(
+                (err) => {},
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadUrl) => {
+                        await addDoc(messagesCollection, { ...msg, img: downloadUrl })
+                    })
+                }
+            )
+        } else {
+            await addDoc(messagesCollection, msg)
+        }
         setNewMessage("")
+        setImage("")
     }
 
     return (
@@ -133,7 +132,14 @@ const Chat = ({ room }) => {
                     <label id="send-img-lable" htmlFor="send-image">
                         📷
                     </label>
-                    <input type="file" className="inp" id="send-image" ref={imageInputRef} />
+                    <input
+                        type="file"
+                        name="img"
+                        className="inp"
+                        id="send-image"
+                        ref={imageInputRef}
+                        onChange={(e) => setImage(e.target.files[0])}
+                    />
                     <button className="btn send-msg" type="submit">
                         Send
                     </button>
